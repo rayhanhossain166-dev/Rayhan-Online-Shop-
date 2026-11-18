@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#103b28">
+<title>Rayhan Online Shop | Admin Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--green:#145c39;--deep:#0d2d1e;--gold:#eab64f;--bg:#f4f7f4;--white:#fff;--ink:#1d2b22;--muted:#728078;--line:#e3eae4;--red:#b83d32;--shadow:0 12px 35px #173d2510}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hind Siliguri",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.shell{min-height:100vh;display:grid;grid-template-columns:250px 1fr}.sidebar{background:linear-gradient(180deg,var(--deep),#174c31);color:#fff;padding:25px 17px;display:flex;flex-direction:column}.brand{font:800 19px Manrope,sans-serif;letter-spacing:-.6px;padding:5px 10px 28px}.brand span{color:var(--gold)}.side-label{font-size:12px;color:#a8c7b4;padding:10px}.nav{display:grid;gap:7px}.nav button{border:0;color:#dcebe1;background:transparent;text-align:left;padding:12px;border-radius:11px;font-weight:600}.nav button.active,.nav button:hover{background:#ffffff18;color:#ffdc8d}.side-bottom{margin-top:auto;color:#a8c7b4;font-size:12px;padding:15px 10px}.main{min-width:0}.topbar{height:76px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 30px;position:sticky;top:0;z-index:5}.topbar h1{font-size:23px;margin:0}.userline{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:14px}.content{padding:27px;max-width:1450px;margin:auto}.btn{border:0;border-radius:10px;padding:10px 15px;font-weight:700}.primary{background:var(--green);color:white}.gold{background:var(--gold);color:#2c2618}.soft{background:#e8f3eb;color:var(--green)}.danger{background:#fff0ee;color:var(--red)}.small{padding:6px 10px;font-size:13px}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:23px}.stat{background:white;border:1px solid var(--line);border-radius:15px;padding:18px;box-shadow:var(--shadow)}.stat small{color:var(--muted)}.stat strong{display:block;font:800 26px Manrope;margin-top:7px}.panel{background:#fff;border:1px solid var(--line);border-radius:15px;padding:19px;box-shadow:var(--shadow);margin-bottom:18px}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:15px}.panel-head h2{font-size:20px;margin:0}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:11px}table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:12px;border-bottom:1px solid var(--line);vertical-align:middle}th{background:#f6f9f6;color:#58675e;white-space:nowrap}td{max-width:330px}tr:last-child td{border-bottom:0}.tag{display:inline-block;padding:4px 9px;border-radius:20px;background:#edf4ef;color:#285a3c;font-size:12px}.muted{color:var(--muted)}.search{border:1px solid var(--line);border-radius:10px;padding:9px 12px;min-width:190px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:grid;gap:5px;margin:11px 0}.field label{font-size:14px;font-weight:600}.field input,.field textarea,.field select{width:100%;border:1px solid var(--line);border-radius:9px;padding:10px 12px;background:white;outline-color:var(--green)}.field textarea{min-height:78px}.overlay{position:fixed;inset:0;background:#07140dcc;z-index:20;display:none;align-items:center;justify-content:center;padding:15px}.overlay.show{display:flex}.modal{width:min(620px,100%);max-height:94vh;overflow:auto;background:white;border-radius:17px;padding:23px}.modalhead{display:flex;align-items:center;justify-content:space-between}.modalhead h2{margin:0}.close{border:0;background:#edf2ed;border-radius:9px;width:35px;height:35px;font-size:21px}.notice{padding:11px 13px;border-radius:9px;background:#fff5df;color:#795311;margin:10px 0;font-size:14px}.error{background:#fff0ed;color:#a13b2d}.success{background:#e7f7ec;color:#155d3a}.login-wrap{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at top right,#e7c16a55,transparent 35%),linear-gradient(135deg,#0d2d1e,#1c6842)}.login-card{background:white;width:min(440px,100%);border-radius:20px;padding:30px;box-shadow:0 25px 80px #0003}.login-card h1{font:800 24px Manrope;margin:0 0 5px}.login-card h1 span{color:var(--green)}.login-card p{color:var(--muted);margin:0 0 20px}.hidden{display:none!important}.empty{text-align:center;padding:35px;color:var(--muted)}.product-thumb{width:45px;height:45px;object-fit:cover;border-radius:8px;background:#eef3ee;vertical-align:middle;margin-right:8px}.actions{display:flex;gap:6px;flex-wrap:wrap}.order-items{white-space:normal;min-width:170px}.mobile-menu{display:none}
+@media(max-width:850px){.shell{grid-template-columns:1fr}.sidebar{padding:12px 14px}.brand{padding:5px 8px 10px}.side-label,.side-bottom{display:none}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap;padding:9px 12px}.topbar{height:65px;padding:0 17px}.content{padding:16px}.cards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.topbar h1{font-size:18px}.userline .email{display:none}.cards{gap:9px}.stat{padding:13px}.stat strong{font-size:21px}.formgrid{grid-template-columns:1fr}.panel{padding:13px}.panel-head{align-items:flex-start;flex-direction:column}.search{width:100%}}
+</style>
+</head>
+<body>
+<div id="loginScreen" class="login-wrap">
+  <form class="login-card" id="loginForm">
+    <h1><span>RAYHAN</span> ADMIN</h1><p>Rayhan Online Shop পরিচালনা প্যানেল</p>
+    <div class="field"><label>অ্যাডমিন ইমেইল</label><input type="email" name="email" value="rayhanhossain166@gmail.com" readonly autocomplete="username"></div>
+    <div class="field"><label>পাসওয়ার্ড</label><input type="password" name="password" required autocomplete="current-password" placeholder="আপনার পাসওয়ার্ড"></div>
+    <div id="loginMessage"></div><button class="btn primary" style="width:100%;margin-top:8px">লগইন করুন</button>
+    <div class="notice">Supabase Authentication-এ আগে অ্যাডমিন ইউজার তৈরি থাকতে হবে এবং তার User ID <b>admin_users</b> টেবিলে যোগ করতে হবে।</div>
+  </form>
+</div>
+<div id="app" class="shell hidden">
+  <aside class="sidebar">
+    <div class="brand"><span>RAYHAN</span> ADMIN</div><div class="side-label">STORE MANAGEMENT</div>
+    <nav class="nav">
+      <button class="active" data-page="dashboard">▦　ড্যাশবোর্ড</button>
+      <button data-page="products">▣　পণ্য পরিচালনা</button>
+      <button data-page="orders">▤　অর্ডার পরিচালনা</button>
+    </nav>
+    <div class="side-bottom">Rayhan Online Shop<br>Admin Control Center</div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><h1 id="pageTitle">ড্যাশবোর্ড</h1><div class="userline"><span class="email" id="adminEmail"></span><button class="btn danger small" id="logoutBtn">লগআউট</button></div></header>
+    <div class="content" id="pageContent"></div>
+  </main>
+</div>
+<div class="overlay" id="productOverlay"><div class="modal">
+  <div class="modalhead"><h2 id="productModalTitle">নতুন পণ্য যোগ করুন</h2><button class="close" data-close="productOverlay">×</button></div>
+  <form id="productForm">
+    <input type="hidden" name="id">
+    <div class="field"><label>পণ্যের নাম *</label><input name="name" required maxlength="140"></div>
+    <div class="formgrid"><div class="field"><label>দাম (৳) *</label><input name="price" type="number" min="0" step=".01" required></div><div class="field"><label>স্টক</label><input name="stock" type="number" min="0" step="1" value="0"></div></div>
+    <div class="formgrid"><div class="field"><label>ক্যাটাগরি</label><input name="category" maxlength="80"></div><div class="field"><label>পণ্যের ছবি</label><input name="image" type="file" accept="image/jpeg,image/png,image/webp"></div></div>
+    <div class="field"><label>ছবির URL (ঐচ্ছিক)</label><input name="image_url" type="url" placeholder="https://..."></div>
+    <div class="field"><label>বিবরণ</label><textarea name="description" maxlength="1000"></textarea></div>
+    <div id="productMessage"></div><button class="btn primary" style="width:100%">সংরক্ষণ করুন</button>
+  </form>
+</div></div>
+<script>
+(() => {
+  // Supabase Project Settings > API থেকে Project URL ও Publishable key বসান।
+  const SUPABASE_URL = "https://xvcfsechymymvgwhtchl.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_8BEfJzxhkAWj5M9lNdXSew_3q1wdDeQ";
+  const ADMIN_EMAIL = "rayhanhossain166@gmail.com";
+  const PRODUCTS = "products", ORDERS = "orders", BUCKET = "product-images";
+  const $ = id => document.getElementById(id);
+  const money = n => "৳" + Number(n || 0).toLocaleString("bn-BD",{maximumFractionDigits:2});
+  const esc = s => String(s ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const configured = SUPABASE_URL.startsWith("https://") && !SUPABASE_URL.includes("YOUR_") && SUPABASE_PUBLISHABLE_KEY && !SUPABASE_PUBLISHABLE_KEY.includes("YOUR_");
+  const db = configured && window.supabase ? window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY) : null;
+  let admin = null, page = "dashboard", productsCache = [];
+  function message(el,text,type="notice"){el.innerHTML=text?`<div class="notice ${type}">${esc(text)}</div>`:""}
+  function showOverlay(id){$(id).classList.add("show")}
+  function hideOverlay(id){$(id).classList.remove("show")}
+  document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>hideOverlay(b.dataset.close));
+  document.querySelectorAll(".overlay").forEach(o=>o.onclick=e=>{if(e.target===o)hideOverlay(o.id)});
+  function configCheck(){if(!db){alert("প্রথমে এই ফাইলে Supabase Project URL ও Publishable key বসান।");return false}return true}
+  async function checkAdmin(){
+    const {data,error}=await db.from("admin_users").select("user_id").eq("user_id",admin.id).maybeSingle();
+    return !error && !!data;
+  }
+  async function startApp(){
+    $("loginScreen").classList.add("hidden");$("app").classList.remove("hidden");$("adminEmail").textContent=admin.email||"Admin";
+    await renderPage();
+  }
+  $("loginForm").onsubmit=async e=>{
+    e.preventDefault();if(!configCheck())return;
+    const f=new FormData(e.target),btn=e.target.querySelector("button");
+    if(String(f.get("email")||"").trim().toLowerCase() !== ADMIN_EMAIL){message($("loginMessage"),"এই Admin Panel-এ অনুমোদিত ইমেইল ব্যবহার করুন।","error");return}
+    btn.disabled=true;btn.textContent="যাচাই হচ্ছে…";
+    const {data,error}=await db.auth.signInWithPassword({email:ADMIN_EMAIL,password:f.get("password")});
+    btn.disabled=false;btn.textContent="লগইন করুন";
+    if(error){message($("loginMessage"),error.message,"error");return}
+    admin=data.user;
+    if(!await checkAdmin()){await db.auth.signOut();admin=null;message($("loginMessage"),"এই অ্যাকাউন্টটি অ্যাডমিন হিসেবে অনুমোদিত নয়।","error");return}
+    message($("loginMessage"),"");await startApp();
+  };
+  $("logoutBtn").onclick=async()=>{await db.auth.signOut();admin=null;$("app").classList.add("hidden");$("loginScreen").classList.remove("hidden")};
+  document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>{page=b.dataset.page;document.querySelectorAll("[data-page]").forEach(x=>x.classList.toggle("active",x===b));renderPage()});
+  async function renderPage(){
+    const titles={dashboard:"ড্যাশবোর্ড",products:"পণ্য পরিচালনা",orders:"অর্ডার পরিচালনা"};$("pageTitle").textContent=titles[page];
+    if(page==="dashboard")return dashboard();
+    if(page==="products")return productPage();
+    return orderPage();
+  }
+  async function dashboard(){
+    const c=$("pageContent");c.innerHTML='<div class="empty">ডেটা লোড হচ্ছে…</div>';
+    const [p,o]=await Promise.all([db.from(PRODUCTS).select("id",{count:"exact",head:true}),db.from(ORDERS).select("id,total,status,created_at")]);
+    if(p.error||o.error){c.innerHTML=`<div class="notice error">${esc(p.error?.message||o.error?.message)}</div>`;return}
+    const orders=o.data||[],pending=orders.filter(x=>x.status==="pending").length,delivered=orders.filter(x=>x.status==="delivered"),sales=delivered.reduce((s,x)=>s+Number(x.total||0),0);
+    c.innerHTML=`<div class="cards">
+      <div class="stat"><small>মোট পণ্য</small><strong>${p.count??0}</strong></div>
+      <div class="stat"><small>মোট অর্ডার</small><strong>${orders.length}</strong></div>
+      <div class="stat"><small>নতুন অর্ডার</small><strong>${pending}</strong></div>
+      <div class="stat"><small>ডেলিভারি সম্পন্ন বিক্রি</small><strong>${money(sales)}</strong></div>
+    </div><section class="panel"><div class="panel-head"><h2>সাম্প্রতিক অর্ডার</h2><button class="btn soft small" id="seeOrders">সব অর্ডার দেখুন</button></div>${orders.length?`<div class="table-wrap"><table><thead><tr><th>তারিখ</th><th>অর্ডার</th><th>স্ট্যাটাস</th><th>মোট</th></tr></thead><tbody>${orders.slice().sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).slice(0,6).map(x=>`<tr><td>${new Date(x.created_at).toLocaleDateString("bn-BD")}</td><td>#${esc(x.id.slice(0,8))}</td><td><span class="tag">${esc(x.status)}</span></td><td>${money(x.total)}</td></tr>`).join("")}</tbody></table></div>`:'<div class="empty">এখনো কোনো অর্ডার আসেনি।</div>'}</section>`;
+    $("seeOrders").onclick=()=>{page="orders";document.querySelectorAll("[data-page]").forEach(x=>x.classList.toggle("active",x.dataset.page==="orders"));renderPage()};
+  }
+  async function productPage(){
+    const c=$("pageContent");c.innerHTML='<section class="panel"><div class="empty">পণ্য লোড হচ্ছে…</div></section>';
+    const {data,error}=await db.from(PRODUCTS).select("*").order("created_at",{ascending:false});
+    if(error){c.innerHTML=`<div class="notice error">${esc(error.message)}</div>`;return}
+    productsCache=data||[];
+    c.innerHTML=`<section class="panel"><div class="panel-head"><h2>আপনার পণ্যসমূহ</h2><div class="actions"><input class="search" id="productSearch" placeholder="পণ্যের নাম খুঁজুন"><button class="btn primary" id="addProduct">+ নতুন পণ্য</button></div></div><div class="table-wrap"><table><thead><tr><th>পণ্য</th><th>ক্যাটাগরি</th><th>দাম</th><th>স্টক</th><th>অবস্থা</th><th>অ্যাকশন</th></tr></thead><tbody id="productRows"></tbody></table></div></section>`;
+    const draw=term=>{const list=productsCache.filter(p=>p.name.toLowerCase().includes(term.toLowerCase()));$("productRows").innerHTML=list.length?list.map(p=>`<tr><td>${p.image_url?`<img class="product-thumb" src="${esc(p.image_url)}" alt="">`:""}${esc(p.name)}</td><td>${esc(p.category||"—")}</td><td>${money(p.price)}</td><td>${p.stock??0}</td><td><span class="tag">${p.active?"সক্রিয়":"লুকানো"}</span></td><td><div class="actions"><button class="btn soft small" data-edit="${p.id}">এডিট</button><button class="btn danger small" data-delete="${p.id}">ডিলিট</button></div></td></tr>`).join(""):'<tr><td colspan="6" class="empty">কোনো পণ্য পাওয়া যায়নি।</td></tr>';
+      c.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>openProduct(productsCache.find(p=>p.id===b.dataset.edit)));
+      c.querySelectorAll("[data-delete]").forEach(b=>b.onclick=()=>deleteProduct(b.dataset.delete));};
+    draw("");$("productSearch").oninput=e=>draw(e.target.value);$("addProduct").onclick=()=>openProduct();
+  }
+  function openProduct(p=null){
+    const f=$("productForm");f.reset();f.elements.id.value=p?.id||"";f.elements.name.value=p?.name||"";f.elements.price.value=p?.price??"";f.elements.stock.value=p?.stock??0;f.elements.category.value=p?.category||"";f.elements.image_url.value=p?.image_url||"";f.elements.description.value=p?.description||"";
+    $("productModalTitle").textContent=p?"পণ্য সম্পাদনা":"নতুন পণ্য যোগ করুন";message($("productMessage"),"");showOverlay("productOverlay");
+  }
+  async function deleteProduct(id){
+    if(!confirm("এই পণ্যটি ডিলিট করতে চান?"))return;
+    const {error}=await db.from(PRODUCTS).delete().eq("id",id);
+    if(error)alert("ডিলিট করা যায়নি: "+error.message);else productPage();
+  }
+  $("productForm").onsubmit=async e=>{
+    e.preventDefault();const f=e.target,fd=new FormData(f),id=fd.get("id"),btn=f.querySelector("button[type=submit]");btn.disabled=true;btn.textContent="সংরক্ষণ হচ্ছে…";
+    let image_url=String(fd.get("image_url")||"").trim();const file=f.elements.image.files[0];
+    if(file){
+      if(file.size>5*1024*1024){message($("productMessage"),"ছবির সাইজ ৫ MB-এর কম হতে হবে।","error");btn.disabled=false;btn.textContent="সংরক্ষণ করুন";return}
+      const ext=(file.name.split(".").pop()||"jpg").toLowerCase().replace(/[^a-z0-9]/g,""),path=crypto.randomUUID()+"."+ext;
+      const {error:uploadError}=await db.storage.from(BUCKET).upload(path,file,{contentType:file.type,upsert:false});
+      if(uploadError){message($("productMessage"),uploadError.message,"error");btn.disabled=false;btn.textContent="সংরক্ষণ করুন";return}
+      image_url=db.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+    }
+    const payload={name:String(fd.get("name")).trim(),price:Number(fd.get("price")),stock:Number(fd.get("stock")||0),category:String(fd.get("category")||"").trim(),description:String(fd.get("description")||"").trim(),image_url,active:true};
+    const result=id?await db.from(PRODUCTS).update(payload).eq("id",id):await db.from(PRODUCTS).insert(payload);
+    btn.disabled=false;btn.textContent="সংরক্ষণ করুন";
+    if(result.error){message($("productMessage"),result.error.message,"error");return}
+    hideOverlay("productOverlay");await productPage();
+  };
+  async function orderPage(){
+    const c=$("pageContent");c.innerHTML='<section class="panel"><div class="empty">অর্ডার লোড হচ্ছে…</div></section>';
+    const {data,error}=await db.from(ORDERS).select("*").order("created_at",{ascending:false}).limit(300);
+    if(error){c.innerHTML=`<div class="notice error">${esc(error.message)}</div>`;return}
+    c.innerHTML=`<section class="panel"><div class="panel-head"><h2>সকল অর্ডার</h2><input class="search" id="orderSearch" placeholder="নাম / ফোন / অর্ডার আইডি খুঁজুন"></div><div class="table-wrap"><table><thead><tr><th>তারিখ</th><th>ক্রেতার তথ্য</th><th>পণ্য</th><th>মোট</th><th>স্ট্যাটাস</th></tr></thead><tbody id="orderRows"></tbody></table></div></section>`;
+    const draw=term=>{const list=(data||[]).filter(o=>(o.customer_name+" "+o.phone+" "+o.id).toLowerCase().includes(term.toLowerCase()));$("orderRows").innerHTML=list.length?list.map(o=>`<tr><td>${new Date(o.created_at).toLocaleString("bn-BD")}<br><small class="muted">#${esc(o.id.slice(0,8))}</small></td><td><b>${esc(o.customer_name)}</b><br>${esc(o.phone)}<br><small class="muted">${esc(o.district||"")} ${esc(o.address||"")}</small></td><td class="order-items">${(o.items||[]).map(i=>`${esc(i.name)} × ${esc(i.quantity)}`).join("<br>")}</td><td><b>${money(o.total)}</b></td><td><select data-status="${o.id}">${["pending","confirmed","processing","shipped","delivered","cancelled"].map(s=>`<option value="${s}" ${o.status===s?"selected":""}>${s}</option>`).join("")}</select></td></tr>`).join(""):'<tr><td colspan="5" class="empty">কোনো অর্ডার পাওয়া যায়নি।</td></tr>';
+      c.querySelectorAll("[data-status]").forEach(sel=>sel.onchange=async()=>{sel.disabled=true;const {error}=await db.from(ORDERS).update({status:sel.value}).eq("id",sel.dataset.status);sel.disabled=false;if(error){alert("স্ট্যাটাস আপডেট হয়নি: "+error.message);orderPage()}});};
+    draw("");$("orderSearch").oninput=e=>draw(e.target.value);
+  }
+  async function init(){
+    if(!db){message($("loginMessage"),"এই HTML ফাইলে Supabase Project URL এবং Publishable key বসানো হয়নি।","error");return}
+    const {data:{session}}=await db.auth.getSession();
+    if(session?.user){admin=session.user;if(await checkAdmin())await startApp();else await db.auth.signOut()}
+  }
+  init();
+})();
+</script>
+</body>
+</html>
